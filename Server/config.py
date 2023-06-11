@@ -1,5 +1,7 @@
 #!/usr/bin/env
 
+from os.path import join, dirname, realpath
+
 SECRET_KEY     = "secret!"
 HOST           = "0.0.0.0"
 RUNNING_PORT   = 5550
@@ -12,6 +14,7 @@ MYSQL_USER     = "selleruserr"
 MYSQL_PASS     = "Sellerpass1!"
 MYSQL_DATABAS  = "sells"
 
-#allowed formats
+#Upload settings
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'} #TODO: add this formats too esp - webp - heic - al - vector
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', "ico"} #TODO: add this formats too esp - webp - heic - al - vector
+UPLOADS_PATH = join(dirname(realpath(__file__)), 'Uploads')

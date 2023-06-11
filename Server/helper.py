@@ -3,6 +3,7 @@ import random
 import string
 import zipfile
 import config
+import os
 
 def generate_random_file_name():
 
@@ -20,10 +21,14 @@ def make_pdf_from_selected_files(selected_files):
 
         images_list.append((Image.open(f)).convert('RGB'))
 
-    images_list[0].save(f"{filename}.pdf", save_all=True, append_images=images_list[1:])
+    pdfpath = os.path.join(config.UPLOADS_PATH, f"{filename}.pdf")
+
+    images_list[0].save(pdfpath, save_all=True, append_images=images_list[1:])
     
-    with zipfile.ZipFile(f"{filename}.zip", mode="w") as archive:
-        archive.write(f"{filename}.pdf")
+    zippath = os.path.join(config.UPLOADS_PATH, f"{filename}.zip")
+
+    with zipfile.ZipFile(zippath , mode="w") as archive:
+        archive.write(pdfpath)
 
     return filename
 

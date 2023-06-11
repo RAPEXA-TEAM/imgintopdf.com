@@ -1,7 +1,8 @@
 #!/usr/bin/env
 
-from flask import Flask, redirect, url_for, render_template, send_file, request
+from flask import Flask, redirect, url_for, render_template, send_file, request, jsonify
 from werkzeug.utils import secure_filename
+import os
 import config as CONFIG
 import helper
 
@@ -16,26 +17,43 @@ app.config.update(
 def page_not_found(e):
     return render_template('404.html'), 404
 
-@app.route('/uploader', methods = ['GET', 'POST'])
-def handle_upload_file():
-   if request.method == 'POST':
+@app.route("/tool",methods=["GET", "POST"])
+def handle_tool_page():
+    
+    if request.method == 'POST':
       
         if 'file' not in request.files:
-            return redirect(request.url)
+            print(401)
 
         f = request.files['file']
+        output = request.form.getlist('output')
+
+        if output == []:
+            output = ['off']
 
         if f.filename == '':
-            return redirect(request.url)
+            print(401)
       
         if f and helper.allowed_file(f.filename):
+            
             filename = secure_filename(f.filename)
-            f.save(filename)
-            return 'file uploaded successfully'
+            filepath = os.path.join(CONFIG.UPLOADS_PATH, filename)
+            f.save(filepath)
+            fname = helper.make_pdf_from_selected_files([filepath])
 
-@app.route('/Files/<name>')
-def handle_download_file(name):
-    return send_file(name, as_attachment=True)
+            if output == ['on']:
+
+                zippath = os.path.join(CONFIG.UPLOADS_PATH, f"{fname}.zip")
+
+                return send_file(zippath, as_attachment=True), 200
+
+            pdfpath = os.path.join(CONFIG.UPLOADS_PATH, f"{fname}.pdf")
+
+            return send_file(pdfpath, as_attachment=True), 200
+        
+        return render_template("tool.html"), 200
+       
+    return render_template('tool.html'), 200
 
 @app.route('/')
 def main():
@@ -43,19 +61,23 @@ def main():
 
 @app.route("/about",methods=["GET", "POST"])
 def handle_about_page():
-    pass
+    return render_template('about.html'), 200
 
 @app.route("/contact",methods=["GET", "POST"])
 def handle_contact_page():
-    pass
+    return render_template('contact.html'), 200
 
 @app.route("/privacy",methods=["GET", "POST"])
 def handle_term_and_privacy_page():
-    pass
+    return render_template('privacy.html'), 200
+
+@app.route("/blog",methods=["GET", "POST"])
+def handle_blog_page():
+    return render_template('blog.html'), 200
 
 @app.route("/blog/<id>",methods=["GET", "POST"])
-def handle_blog_page(id):
-    pass
+def handle_blog_post_page(id):
+    return render_template('blog.html'), 200
 
 @app.route("/admin",methods=["GET", "POST"])
 def handle_admin_page():
