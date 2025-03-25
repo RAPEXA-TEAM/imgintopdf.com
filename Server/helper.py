@@ -5,6 +5,10 @@ import zipfile
 import config
 import os
 
+def send_email_to_manager(text):
+    #Todo: this function send email to manager for contact us page
+    pass
+
 def generate_random_file_name():
 
     letters = string.ascii_lowercase

@@ -12,7 +12,7 @@ DEBUG_MODE     = True
 MYSQL_HOST     = "127.0.0.1"
 MYSQL_USER     = "selleruserr"
 MYSQL_PASS     = "Sellerpass1!"
-MYSQL_DATABAS  = "sells"
+MYSQL_DATABASE  = "sells"
 
 #Upload settings
 
