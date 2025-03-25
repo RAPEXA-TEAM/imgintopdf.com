@@ -37,8 +37,9 @@
 ## Quick Start
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/flask-project.git
-cd flask-project
+git clone https://github.com/RAPEXA-TEAM/imgintopdf.com.git
+cd imgintopdf.com
+cd Server
 
 # Set up virtual environment (Windows)
 python -m venv venv
@@ -47,13 +48,8 @@ venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Set environment variables
-echo "FLASK_APP=app.py" > .env
-echo "FLASK_ENV=development" >> .env
-echo "SECRET_KEY=your_random_secret_key" >> .env
-
 # Run the application
-flask run
+python server.py
 ```
 
 ## Contributing
